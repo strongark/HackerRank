@@ -1,5 +1,6 @@
 package com.tranmpham.hackerrank.hackerrank;
 
+import org.omg.CORBA.INTERNAL;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,8 +56,35 @@ public class ArrayController {
     After third update list will be 100 200 200 200 100.
     So the required answer will be 200.
     * */
+        String[] strings = input.split("\n");
+        String[] first_line = strings[0].split(" ");
+        int n= Integer.parseInt(first_line[0]);
+        int m= Integer.parseInt(first_line[1]);
+        long[] num= new long[n];
+        long max_val=0;
+        for (int i=1;i<=m;i++){
+            String[] linex= strings[i].split(" ");
+            int a = Integer.parseInt(linex[0]);
+            int b = Integer.parseInt(linex[1]);
+            int k = Integer.parseInt(linex[2]);
+//            for(int j=a-1;j<=b-1;j++){
+//                num[j]+=k;
+//                if(num[j]>max_val)
+//                    max_val=num[j];
+//            }
+            num[a-1]+=k;
+            if(b<n)
+                num[b]-=k;
+        }
+        long sum=0;
+        for(int j=0;j<n;j++)
+        {
+            sum+=num[j];
+            if(max_val<sum)
+                max_val=sum;
+        }
 
-        return "Solve!";
+        return ""+max_val;
     }
 
 }

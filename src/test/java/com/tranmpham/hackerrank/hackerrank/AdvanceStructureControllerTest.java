@@ -5,33 +5,37 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import javax.servlet.ServletContext;
+
 /**
- * Created by tranpham on 11/4/17.
+ * Created by tranpham on 11/5/17.
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(value = ArrayController.class,secure = false)
-public class ArrayControllerTest {
+@WebMvcTest
+public class AdvanceStructureControllerTest {
+
     @Autowired
-    private MockMvc mockMvc;
+    MockMvc mockMvc;
 
     @Test
-    public void solveArrayManipulation() throws Exception{
-        RequestBuilder requestBuilder= MockMvcRequestBuilders
-                .get("/array/manipulation?input=5 3\n1 2 100\n2 5 100\n3 4 100")
+    public void solvAlmostEqualTest() throws Exception{
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get("/advance/almostequal?input=5 2\n1 3 4 3 0\n3\n0 1\n1 3\n0 4")
                 .accept(MediaType.ALL);
+
         MvcResult result= mockMvc.perform(requestBuilder).andReturn();
         System.out.println(result.getResponse());
-        String expected="200";
-        Assert.assertEquals("Result is not the same"
-                            ,expected
-                            ,result.getResponse().getContentAsString());
+        String answer= result.getResponse().getContentAsString();
+        String expected="1\n3\n6\n";
+        Assert.assertEquals("Result is not the same",expected,answer);
+
     }
 }
